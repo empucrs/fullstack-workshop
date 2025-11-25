@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: todo-backend
+    env: java
+    region: oregon
+    plan: free
+    buildCommand: cd 02_Backend_SpringBoot && ./mvnw clean package -DskipTests
+    startCommand: cd 02_Backend_SpringBoot && java -jar target/*.jar
+    healthCheckPath: /api/todos/health
+    envVars:
+      - key: JAVA_OPTS
+        value: -Xmx512m -Xms256m
+      - key: SERVER_PORT
+        value: 10000
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+

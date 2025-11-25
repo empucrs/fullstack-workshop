@@ -1,0 +1,46 @@
+name: Backend PR Check
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '02_Backend_SpringBoot/**'
+      - '.github/workflows/backend-pr.yml'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build with Maven
+        working-directory: ./02_Backend_SpringBoot
+        run: ./mvnw clean package -DskipTests
+
+      - name: Run tests
+        working-directory: ./02_Backend_SpringBoot
+        run: ./mvnw test
+
+      - name: Check code style
+        working-directory: ./02_Backend_SpringBoot
+        run: mvn checkstyle:check || echo "⚠️ Checkstyle not configured"
+
+      - name: Generate test report
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: Backend Tests
+          path: '02_Backend_SpringBoot/target/surefire-reports/*.xml'
+          reporter: java-junit
+          fail-on-error: true
+

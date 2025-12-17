@@ -14,6 +14,7 @@ Explore and test the Spring Boot REST API for managing TODO items.
 
 ```
 02_Backend_SpringBoot/
+├── Dockerfile                     # Docker config for Render deployment
 ├── src/main/java/com/workshop/todo/
 │   ├── TodoApplication.java       # Main app
 │   ├── controller/                # REST endpoints
@@ -22,7 +23,8 @@ Explore and test the Spring Boot REST API for managing TODO items.
 │   ├── repository/                # Data access
 │   └── config/                    # Configuration
 └── src/main/resources/
-    └── application.properties     # Config
+    ├── application.properties     # Dev config
+    └── application-prod.properties # Production config
 ```
 
 ## TODO Model
@@ -124,11 +126,29 @@ spring.h2.console.enabled=true
 server.servlet.context-path=/api
 ```
 
+## Docker Build (for Production)
+
+Build and test the Docker image locally:
+
+```bash
+cd 02_Backend_SpringBoot
+
+# Build Docker image
+docker build -t todo-backend .
+
+# Run container
+docker run -p 10000:10000 -e SPRING_PROFILES_ACTIVE=prod todo-backend
+
+# Test
+curl http://localhost:10000/api/todos/health
+```
+
 ## Troubleshooting
 
 **Port 8080 in use:** Kill process with `lsof -i :8080` then `kill -9 PID`
 **Build fails:** Run `./mvnw clean install -U`
 **CORS errors:** Check `WebConfig.java` has correct origins
+**Docker build fails:** Ensure `pom.xml` and `src/` are in the same directory as Dockerfile
 
 ---
 

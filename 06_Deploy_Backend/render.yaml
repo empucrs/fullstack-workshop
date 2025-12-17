@@ -1,11 +1,12 @@
 services:
   - type: web
-    name: todo-backend
+    name: fullstack-workshop
     runtime: docker
-    region: oregon
+    branch: master
+    region: virginia
     plan: free
-    dockerfilePath: ./02_Backend_SpringBoot/Dockerfile
-    dockerContext: ./02_Backend_SpringBoot
+    rootDir: ./02_Backend_SpringBoot
+    dockerfilePath: ./Dockerfile
     healthCheckPath: /api/todos/health
     envVars:
       - key: SERVER_PORT

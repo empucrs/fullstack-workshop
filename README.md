@@ -52,7 +52,7 @@ node --version   # Should be 18+
 
 **Backend:** Spring Boot 3.2, Java 17, H2 Database, Maven
 **Frontend:** React 18, Vite, Axios
-**DevOps:** GitHub Actions, Render, GitHub Pages
+**DevOps:** GitHub Actions, Render (Docker), GitHub Pages
 
 ## Resources
 
@@ -67,4 +67,3 @@ MIT License - See [LICENSE](LICENSE)
 ---
 
 **Start here:** [Module 01 - Getting Started](01_Getting_Started/)
-
